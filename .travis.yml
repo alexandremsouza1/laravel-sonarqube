@@ -9,8 +9,11 @@ matrix:
     - php: 7.0
       env: LARAVEL_VERSION=5.2.*
 
+install: 
+  composer install
+
 before_script:
-- cp . .env
+- cp .env
 - mysql -e 'create database forge;'
 - composer self-update
 - composer install --no-interaction
@@ -22,5 +25,6 @@ before_script:
 
 script: 
   - vendor/bin/phpunit
+  
 notifications:
   email: false
