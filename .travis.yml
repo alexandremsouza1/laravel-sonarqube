@@ -20,11 +20,8 @@ before_script:
 - php artisan key:generate
 - php artisan migrate --seed
 
-
-before_script:
-
 script: 
   - vendor/bin/phpunit
-  
+
 notifications:
   email: false
