@@ -1,26 +1,27 @@
-language: 
-  - php
+sudo: required
 
-env:
-  - LARAVEL_VERSION=5.2.*
+dist: trusty
 
-matrix:
-  include:
-    - php: 7.0
-      env: LARAVEL_VERSION=5.2.*
+language: php
 
+php:
+  - '7.2'
+
+addons:
+   chrome: stable
+
+install:
+   - cp .env
+   - composer self-update
+   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 before_script:
-- cp .env
-- mysql -e 'create database forge;'
-- composer self-update
-- composer install --no-interaction
-- php artisan key:generate
-- php artisan migrate --seed
-- composer self-update
-- composer install --dev --no-interaction
-script: 
-  - vendor/bin/phpunit
+   - mysql -e 'create database forge;'
+   - php artisan key:generate
+   - php artisan migrate --force
+   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+   - php artisan serve &
 
-notifications:
-  email: false
+script:
+   - phpunit
+   - php artisan dusk
