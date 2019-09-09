@@ -13,6 +13,7 @@ before_script:
   - php artisan migrate
 
 before_install:
+  - gem install bundler
   - gem install rake
   - mysql -e 'CREATE DATABASE forge;'
 
