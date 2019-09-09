@@ -9,8 +9,6 @@ matrix:
     - php: 7.0
       env: LARAVEL_VERSION=5.2.*
 
-install: 
-  composer install
 
 before_script:
 - cp .env
