@@ -1,27 +1,25 @@
-sudo: required
-
-dist: trusty
-
 language: php
 
 php:
-  - '7.2'
-
-addons:
-   chrome: stable
-
-install:
-   - cp .env
-   - composer self-update
-   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - 7.0
+  - 7.1
 
 before_script:
-   - mysql -e 'create database forge;'
-   - php artisan key:generate
-   - php artisan migrate --force
-   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-   - php artisan serve &
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+  - php artisan key:generate
+  - php artisan jwt:secret
+  - php artisan migrate
+
+before_install:
+  - mysql -e 'CREATE DATABASE realworld_test;'
 
 script:
-   - phpunit
-   - php artisan dusk
+  - phpunit
+
+services:
+  - mysql
+
+notifications:
+  email: false
