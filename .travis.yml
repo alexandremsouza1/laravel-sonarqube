@@ -1,13 +1,12 @@
 language: php
 
 php:
-  - 7.0
-  - 7.1
+  - nightly
 
 before_script:
   - cp .env.travis .env
   - composer self-update
-  - composer install --prefer-source --no-interaction --dev
+  - composer install --no-interaction
   - php artisan key:generate
   - php artisan jwt:generate
   - php artisan migrate
@@ -16,7 +15,8 @@ before_install:
   - mysql -e 'CREATE DATABASE forge;'
 
 script:
-  - phpunit
+  - cd application/tests
+  - ../../vendor/bin/phpunit --coverage-text
 
 services:
   - mysql
