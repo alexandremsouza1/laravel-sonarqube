@@ -14,8 +14,7 @@ before_install:
   - mysql -e 'CREATE DATABASE forge;'
 
 script:
-  - cd application/tests
-  - ../../vendor/bin/phpunit --coverage-text
+  - vendor/bin/phpunit tests
 
 services:
   - mysql
